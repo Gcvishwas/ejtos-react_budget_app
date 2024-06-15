@@ -1,14 +1,10 @@
-// components/Remaining.js
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Remaining = () => {
   const { budget, expenses } = useContext(AppContext);
 
-  const totalExpenses = expenses.reduce((total, item) => {
-    return total + item.cost;
-  }, 0);
-
+  const totalExpenses = expenses.reduce((total, item) => total + item.cost, 0);
   const remaining = budget - totalExpenses;
 
   return (
