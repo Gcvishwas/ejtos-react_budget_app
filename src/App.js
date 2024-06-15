@@ -1,11 +1,10 @@
 // App.js
 import React from 'react';
-import Budget from './Budget';
+import Budget from './components/Budget'; // Correct import path
 
 function App() {
   return (
     <div className="App">
-      {/* Budget component */}
       <div className='col-sm'>
         <Budget />
       </div>
