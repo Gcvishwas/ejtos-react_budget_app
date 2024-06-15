@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+// AppContext.js
+import React, { createContext, useState } from 'react';
 
-const Budget = () => {
-    const { budget } = useContext(AppContext);
-    const [newBudget, setNewBudget] = useState(budget);
-    const handleBudgetChange = (event) => {
-        setNewBudget(event.target.value);
-    }
-    return (
-<div className='alert alert-secondary'>
-<span>Budget: £{budget}</span>
-<input type="number" step="10" value={newBudget} onChange={handleBudgetChange}></input>
-</div>
-    );
+export const AppContext = createContext();
+
+export const AppProvider = ({ children }) => {
+  const [budget, setBudget] = useState(1000); // Default budget
+
+  return (
+    <AppContext.Provider value={{ budget, setBudget }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
-export default Budget;
