@@ -2,18 +2,21 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const AllocationForm = (props) => {
-  const { dispatch, budget, expenses } = useContext(AppContext);
-  const totalExpenses = expenses.reduce((total, item) => total + item.cost, 0);
-  const remaining = budget - totalExpenses;
-
+  const { budget, expenses, dispatch } = useContext(AppContext);
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
-  const [action, setAction] = useState('');
+  const [action, setAction] = useState('Add');
+
+  const totalExpenses = expenses.reduce((total, item) => {
+    return total + item.cost;
+  }, 0);
+
+  const remainingBudget = budget - totalExpenses;
 
   const submitEvent = () => {
-    if (cost > remaining && action === 'Add') {
-      alert("The value cannot exceed remaining funds £" + remaining);
-      setCost("");
+    if (action === 'Add' && cost > remainingBudget) {
+      alert(`The value cannot exceed remaining funds: £${remainingBudget}`);
+      setCost('');
       return;
     }
 
@@ -22,10 +25,20 @@ const AllocationForm = (props) => {
       cost: parseInt(cost),
     };
 
-    dispatch({
-      type: action === 'Reduce' ? 'RED_EXPENSE' : 'ADD_EXPENSE',
-      payload: expense,
-    });
+    if (action === 'Reduce') {
+      dispatch({
+        type: 'RED_EXPENSE',
+        payload: expense,
+      });
+    } else {
+      dispatch({
+        type: 'ADD_EXPENSE',
+        payload: expense,
+      });
+    }
+
+    setName('');
+    setCost('');
   };
 
   return (
@@ -44,6 +57,7 @@ const AllocationForm = (props) => {
             <option value="IT">IT</option>
             <option value="Admin">Admin</option>
           </select>
+
           <div className="input-group-prepend" style={{ marginLeft: '2rem' }}>
             <label className="input-group-text" htmlFor="inputGroupSelect02">Allocation</label>
           </div>
@@ -51,6 +65,7 @@ const AllocationForm = (props) => {
             <option defaultValue value="Add">Add</option>
             <option value="Reduce">Reduce</option>
           </select>
+
           <input
             required='required'
             type='number'
@@ -59,6 +74,7 @@ const AllocationForm = (props) => {
             style={{ marginLeft: '2rem', size: 10 }}
             onChange={(event) => setCost(event.target.value)}
           />
+
           <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
             Save
           </button>
