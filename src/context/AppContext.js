@@ -2,8 +2,31 @@ import React, { createContext, useReducer } from 'react';
 
 export const AppContext = createContext();
 
+const MAX_BUDGET = 20000;
+
 const appReducer = (state, action) => {
   switch (action.type) {
+    case 'SET_BUDGET':
+      const newBudget = parseInt(action.payload);
+      const totalExpenses = state.expenses.reduce((total, item) => total + item.cost, 0);
+
+      if (newBudget < totalExpenses) {
+        return {
+          ...state,
+          budget: state.budget,
+        };
+      } else if (newBudget > MAX_BUDGET) {
+        return {
+          ...state,
+          budget: MAX_BUDGET,
+        };
+      } else {
+        return {
+          ...state,
+          budget: newBudget,
+        };
+      }
+    
     case 'ADD_EXPENSE':
       // Check if the expense already exists
       const existingExpense = state.expenses.find(expense => expense.name === action.payload.name);

@@ -5,6 +5,8 @@ import ExpenseItem from './ExpenseItem';
 const ExpenseList = () => {
   const { expenses, dispatch } = useContext(AppContext);
 
+  // Remove unused variables or comment them with eslint-disable-next-line if intended for future use
+  // eslint-disable-next-line no-unused-vars
   const handleDelete = (id) => {
     dispatch({
       type: 'DELETE_EXPENSE',
@@ -12,6 +14,7 @@ const ExpenseList = () => {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleIncrement = (id) => {
     dispatch({
       type: 'INC_EXPENSE',
