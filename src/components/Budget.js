@@ -9,9 +9,9 @@ const Budget = () => {
   const handleBudgetChange = (event) => {
     const value = parseInt(event.target.value);
     if (value < totalExpenses) {
-      setError('You cannot reduce the budget value lower than the spending amount.');
+      alert('You cannot reduce the budget value lower than the spending amount.');
     } else if (value > 20000) {
-      setError('Budget cannot exceed £20,000.');
+      alert('Budget cannot exceed £20,000.');
     } else {
       setNewBudget(value);
       setError('');
